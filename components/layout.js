@@ -14,7 +14,7 @@ export default function Layout({ children, home }) {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="Learn how to build a personal website using Next.js"
+          content="Mike Keefe is a freelance web designer, developer and runner from London."
         />
         <meta
           property="og:image"
