@@ -40,6 +40,15 @@ export default function Home({ allPostsData }) {
           ))}
         </ul>
       </section>
+
+      {/*
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2 className={`${utilStyles.headingMd}`}>Elsewhere on the web</h2>
+        <ul className={utilStyles.list}>
+          <li className={utilStyles.listItem}>Twitter</li>
+        </ul>
+      </section>
+      */}
     </Layout>
   )
 }
