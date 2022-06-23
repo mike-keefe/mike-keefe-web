@@ -2,53 +2,35 @@ import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
-import Date from '../components/date'
 
-import { getSortedPostsData } from '../lib/posts'
+import { PrismicText, PrismicRichText } from '@prismicio/react'
+import { createClient } from '../prismicio'
 
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
+  // Client used to fetch CMS content.
+  const client = createClient()
+
+  // Page document for our homepage from the CMS.
+  const page = await client.getByUID('page', 'home')
+
+  // Pass the homepage as prop to our page.
   return {
-    props: {
-      allPostsData
-    }
+    props: { page },
   }
 }
 
-export default function Home({ allPostsData }) {
+export default function Home({ page }) {
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>Hello, I'm <strong>Mike</strong>. I'm a freelance web designer, developer and runner from London.</p>
+        <PrismicRichText field={page.data.greeting} />
       </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-            <Link href={`/posts/${id}`}>
-              <a>{title}</a>
-            </Link>
-            <br />
-            <small className={utilStyles.lightText}>
-              <Date dateString={date} />
-            </small>
-          </li>
-          ))}
-        </ul>
+      <section>
+        <PrismicRichText field={page.data.description}  />
       </section>
-
-      {/*
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={`${utilStyles.headingMd}`}>Elsewhere on the web</h2>
-        <ul className={utilStyles.list}>
-          <li className={utilStyles.listItem}>Twitter</li>
-        </ul>
-      </section>
-      */}
     </Layout>
   )
 }
